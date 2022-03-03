@@ -35,7 +35,7 @@ import org.apache.iceberg.Table;
 import org.apache.iceberg.TableOperations;
 import org.apache.iceberg.exceptions.RuntimeIOException;
 import org.apache.iceberg.exceptions.ValidationException;
-import org.apache.iceberg.hadoop.HiddenPathFilter;
+import org.apache.iceberg.hadoop.KasasiHiddenPathFilter;
 import org.apache.iceberg.relocated.com.google.common.collect.Lists;
 import org.apache.iceberg.util.PropertyUtil;
 import org.apache.iceberg.util.Tasks;
@@ -217,7 +217,7 @@ public class RemoveOrphanFilesAction extends BaseSparkAction<List<String>> {
 
       List<String> subDirs = Lists.newArrayList();
 
-      for (FileStatus file : fs.listStatus(path, HiddenPathFilter.get())) {
+      for (FileStatus file : fs.listStatus(path, KasasiHiddenPathFilter.get())) {
         if (file.isDirectory()) {
           subDirs.add(file.getPath().toString());
         } else if (file.isFile() && predicate.test(file)) {
